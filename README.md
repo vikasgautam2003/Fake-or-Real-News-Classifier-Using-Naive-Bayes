@@ -6,8 +6,6 @@ and Scikit-learn. It classifies news articles as Fake or Real using advanced NLP
 and machine learning algorithms.
 
 
-▶️ Live Demo - Coming Soon
-
 
 About The Project
 -----------------

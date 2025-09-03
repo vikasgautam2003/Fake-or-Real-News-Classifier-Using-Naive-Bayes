@@ -9,34 +9,38 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout GitHub repo
-      uses: actions/checkout@v3
+      # 1️⃣ Checkout GitHub repo
+      - name: Checkout GitHub repo
+        uses: actions/checkout@v3
 
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: "3.10"
+      # 2️⃣ Set up Python
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
 
-    - name: Install huggingface_hub
-      run: pip install huggingface_hub
+      # 3️⃣ Install dependencies
+      - name: Install huggingface_hub
+        run: pip install huggingface_hub
 
-    - name: Push model to Hugging Face
-      env:
-        HF_TOKEN: ${{ secrets.HF_TOKEN }}  # your HF token stored in GitHub secrets
-      run: |
-        git config --global user.email "you@example.com"
-        git config --global user.name "Your Name"
+      # 4️⃣ Push model to Hugging Face
+      - name: Push model to Hugging Face
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}  # securely stored token
+        run: |
+          git config --global user.email "you@example.com"
+          git config --global user.name "Your Name"
 
-        # Clone your Hugging Face model repo
-        git clone https://huggingface.co/vikasgautam2003/Fake-or-Real-News-Classifier-Using-Naive-Bayes hf-model
-        cd hf-model
+          # Clone Hugging Face model repo using token for auth
+          git clone https://$HF_TOKEN@huggingface.co/vikasgautam2003/Fake-or-Real-News-Classifier-Using-Naive-Bayes hf-model
+          cd hf-model
 
-        # Copy files from GitHub repo
-        cp ../nb_model.pkl .
-        cp ../README.md .
-        cp -r ../inference.py . || echo "No inference.py, skipping"
+          # Copy model and files from GitHub repo
+          cp ../nb_model.pkl .
+          cp ../README.md .
+          cp -r ../inference.py . || echo "No inference.py, skipping"
 
-        # Commit and push updates
-        git add .
-        git commit -m "Update model from GitHub" || echo "No changes to commit"
-        git push https://$HF_TOKEN@huggingface.co/vikasgautam2003/Fake-or-Real-News-Classifier-Using-Naive-Bayes main
+          # Commit & push changes
+          git add .
+          git commit -m "Update model from GitHub" || echo "No changes to commit"
+          git push https://$HF_TOKEN@huggingface.co/vikasgautam2003/Fake-or-Real-News-Classifier-Using-Naive-Bayes main

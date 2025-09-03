@@ -2,7 +2,7 @@
 ===================================================
 
 News Classifier is an AI-powered fake news detection system built with Python, spaCy, 
-and Scikit-learn. It classifies news articles as Fake or Real using advanced NLP embeddings 
+and Scikit-learn. It classifies news articles as Fake or Real using advanced NLP embeddings
 and machine learning algorithms.
 
 

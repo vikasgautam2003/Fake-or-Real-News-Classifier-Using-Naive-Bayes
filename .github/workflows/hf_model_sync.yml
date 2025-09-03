@@ -2,14 +2,14 @@ name: Sync Model to Hugging Face
 
 on:
   push:
-    branches: [ main ]  # or your default branch
+    branches: [ main ]  # triggers workflow on main branch
 
 jobs:
   sync:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repo
+    - name: Checkout GitHub repo
       uses: actions/checkout@v3
 
     - name: Set up Python
@@ -22,21 +22,21 @@ jobs:
 
     - name: Push model to Hugging Face
       env:
-        HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        HF_TOKEN: ${{ secrets.HF_TOKEN }}  # your HF token stored in GitHub secrets
       run: |
         git config --global user.email "you@example.com"
         git config --global user.name "Your Name"
 
-        # Clone HF model repo
+        # Clone your Hugging Face model repo
         git clone https://huggingface.co/vikasgautam2003/Fake-or-Real-News-Classifier-Using-Naive-Bayes hf-model
         cd hf-model
 
-        # Copy latest model & files from GitHub repo
+        # Copy files from GitHub repo
         cp ../nb_model.pkl .
         cp ../README.md .
-        cp -r ../inference.py .  # optional if you have inference script
+        cp -r ../inference.py . || echo "No inference.py, skipping"
 
-        # Commit & push
+        # Commit and push updates
         git add .
         git commit -m "Update model from GitHub"
         git push https://$HF_TOKEN@huggingface.co/vikasgautam2003/Fake-or-Real-News-Classifier-Using-Naive-Bayes main

@@ -22,7 +22,7 @@ Key Features
 - Embeddings with spaCy for semantic text understanding
 - Multiple ML Models: Naive Bayes & KNN
 - Evaluation Metrics: Confusion Matrix & Classification Report
-- Scalable and easily extendable to more datasets and models
+- Scalable and easily extendable to more datasets and models.
 
 
 Tech Stack

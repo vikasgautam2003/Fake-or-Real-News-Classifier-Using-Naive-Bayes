@@ -1,0 +1,41 @@
+name: Sync Model to Hugging Face
+
+on:
+  push:
+    branches: [ main ]  # or your default branch
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.10
+
+    - name: Install huggingface_hub
+      run: pip install huggingface_hub
+
+    - name: Push model to Hugging Face
+      env:
+        HF_TOKEN: ${{ secrets.HF_TOKEN }}
+      run: |
+        git config --global user.email "you@example.com"
+        git config --global user.name "Your Name"
+
+        # Clone HF model repo
+        git clone https://huggingface.co/<YOUR-HF-USERNAME>/<MODEL-REPO> hf-model
+        cd hf-model
+
+        # Copy latest model from GitHub repo
+        cp ../nb_model.pkl .
+        cp ../README.md .
+
+        # Commit & push
+        git add .
+        git commit -m "Update model from GitHub"
+        git push https://$HF_TOKEN@huggingface.co/<YOUR-HF-USERNAME>/<MODEL-REPO> main

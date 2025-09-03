@@ -28,14 +28,15 @@ jobs:
         git config --global user.name "Your Name"
 
         # Clone HF model repo
-        git clone https://huggingface.co/<YOUR-HF-USERNAME>/<MODEL-REPO> hf-model
+        git clone https://huggingface.co/vikasgautam2003/Fake-or-Real-News-Classifier-Using-Naive-Bayes hf-model
         cd hf-model
 
-        # Copy latest model from GitHub repo
+        # Copy latest model & files from GitHub repo
         cp ../nb_model.pkl .
         cp ../README.md .
+        cp -r ../inference.py .  # optional if you have inference script
 
         # Commit & push
         git add .
         git commit -m "Update model from GitHub"
-        git push https://$HF_TOKEN@huggingface.co/<YOUR-HF-USERNAME>/<MODEL-REPO> main
+        git push https://$HF_TOKEN@huggingface.co/vikasgautam2003/Fake-or-Real-News-Classifier-Using-Naive-Bayes main

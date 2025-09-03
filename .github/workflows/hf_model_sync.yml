@@ -32,11 +32,12 @@ jobs:
           git config --global user.email "you@example.com"
           git config --global user.name "Your Name"
 
-          # Set up Hugging Face token for Git
-          git config --global credential.helper store
-          echo "https://$HF_TOKEN:@huggingface.co" > ~/.git-credentials
+          # Set up GIT_ASKPASS to provide token for HTTPS auth
+          export GIT_ASKPASS=$(mktemp)
+          echo -e "#!/bin/sh\necho \$HF_TOKEN" > $GIT_ASKPASS
+          chmod +x $GIT_ASKPASS
 
-          # Clone Hugging Face model repo
+          # Clone Hugging Face repo
           git clone https://huggingface.co/vikasgautam2003/Fake-or-Real-News-Classifier-Using-Naive-Bayes hf-model
           cd hf-model
 

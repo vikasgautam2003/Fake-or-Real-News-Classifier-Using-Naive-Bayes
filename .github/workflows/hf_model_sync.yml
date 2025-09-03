@@ -28,11 +28,16 @@ jobs:
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}  # securely stored token
         run: |
+          # Configure Git
           git config --global user.email "you@example.com"
           git config --global user.name "Your Name"
 
-          # Clone Hugging Face model repo using token for auth
-          git clone https://$HF_TOKEN@huggingface.co/vikasgautam2003/Fake-or-Real-News-Classifier-Using-Naive-Bayes hf-model
+          # Set up Hugging Face token for Git
+          git config --global credential.helper store
+          echo "https://$HF_TOKEN:@huggingface.co" > ~/.git-credentials
+
+          # Clone Hugging Face model repo
+          git clone https://huggingface.co/vikasgautam2003/Fake-or-Real-News-Classifier-Using-Naive-Bayes hf-model
           cd hf-model
 
           # Copy model and files from GitHub repo
@@ -43,4 +48,4 @@ jobs:
           # Commit & push changes
           git add .
           git commit -m "Update model from GitHub" || echo "No changes to commit"
-          git push https://$HF_TOKEN@huggingface.co/vikasgautam2003/Fake-or-Real-News-Classifier-Using-Naive-Bayes main
+          git push
